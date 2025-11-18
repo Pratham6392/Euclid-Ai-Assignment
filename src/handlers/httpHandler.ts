@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { getTokenMetadata, GetTokenMetadataParams } from '../tools/getTokenMetadata';
-import { getRoutes, GetRoutesParams } from '../tools/getRoutes';
-import { formatHTTPChunk, Logger } from '../utils';
+import { getTokenMetadata, GetTokenMetadataParams } from '../tools/getTokenMetadata.js';
+import { getRoutes, GetRoutesParams } from '../tools/getRoutes.js';
+import { formatHTTPChunk, Logger } from '../utils.js';
 
 /**
  * HTTP Chunked Handler for token metadata

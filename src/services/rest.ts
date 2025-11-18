@@ -1,5 +1,5 @@
-import { RoutesRequest, RoutesResponse } from '../types';
-import { Logger } from '../utils';
+import { RoutesRequest, RoutesResponse } from '../types.js';
+import { Logger } from '../utils.js';
 
 const REST_ENDPOINT = process.env.EUCLID_REST_ENDPOINT || 'https://testnet.api.euclidprotocol.com/api/v1/routes';
 

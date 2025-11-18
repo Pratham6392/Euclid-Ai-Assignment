@@ -1,6 +1,6 @@
-import { fetchRoutes } from '../services/rest';
-import { MCPToolResponse } from '../types';
-import { formatMCPResult, formatMCPError, validateRoutesParams, Logger } from '../utils';
+import { fetchRoutes } from '../services/rest.js';
+import { MCPToolResponse } from '../types.js';
+import { formatMCPResult, formatMCPError, validateRoutesParams, Logger } from '../utils.js';
 
 export interface GetRoutesParams {
   token_in: string;

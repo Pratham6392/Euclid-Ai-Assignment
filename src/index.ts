@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import { handleSSE } from './handlers/unifiedHandler';
-import { handleHTTP } from './handlers/unifiedHandler';
-import { Logger } from './utils';
+import { handleSSE } from './handlers/unifiedHandler.js';
+import { handleHTTP } from './handlers/unifiedHandler.js';
+import { Logger } from './utils.js';
 
 // Load environment variables
 dotenv.config();

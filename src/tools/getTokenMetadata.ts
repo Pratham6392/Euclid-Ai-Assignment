@@ -1,9 +1,9 @@
 import {
   fetchTokenMetadatas,
   fetchTokenMetadataById,
-} from '../services/graphql';
-import { MCPToolResponse } from '../types';
-import { formatMCPResult, formatMCPError, validateTokenMetadataParams, Logger } from '../utils';
+} from '../services/graphql.js';
+import { MCPToolResponse } from '../types.js';
+import { formatMCPResult, formatMCPError, validateTokenMetadataParams, Logger } from '../utils.js';
 
 export interface GetTokenMetadataParams {
   limit?: number;

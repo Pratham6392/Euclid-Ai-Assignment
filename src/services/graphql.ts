@@ -1,6 +1,6 @@
 import { GraphQLClient, gql } from 'graphql-request';
-import { TokenMetadataResponse, TokenMetadata } from '../types';
-import { Logger } from '../utils';
+import { TokenMetadataResponse, TokenMetadata } from '../types.js';
+import { Logger } from '../utils.js';
 
 const GRAPHQL_ENDPOINT = process.env.EUCLID_GRAPHQL_ENDPOINT || 'https://testnet.api.euclidprotocol.com/graphql';
 
