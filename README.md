@@ -19,6 +19,17 @@ This server acts as middleware that:
 - ✅ **TypeScript**: Full type safety with strict mode
 - ✅ **MCP-Compliant**: Structured JSON responses
 
+## 🌐 Hosted Server
+
+**Live Production URL:** https://euclid-mcp-server.vercel.app
+
+All endpoints are available at the hosted URL:
+- `GET https://euclid-mcp-server.vercel.app/health` - Health check
+- `GET https://euclid-mcp-server.vercel.app/mcp/sse` - Token metadata (SSE)
+- `POST https://euclid-mcp-server.vercel.app/mcp/sse` - Routes (SSE)
+- `GET https://euclid-mcp-server.vercel.app/mcp/http` - Token metadata (HTTP)
+- `POST https://euclid-mcp-server.vercel.app/mcp/http` - Routes (HTTP)
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -235,19 +246,24 @@ All logs include timestamps in ISO format.
 
 ## 📊 Example Usage
 
-### Fetch Token List
+### Fetch Token List (Local)
 ```bash
-curl "http://localhost:3000/mcp/http/token-metadata?limit=5"
+curl "http://localhost:3000/mcp/http?limit=5"
 ```
 
-### Fetch Single Token
+### Fetch Token List (Production)
 ```bash
-curl "http://localhost:3000/mcp/http/token-metadata?tokenId=stars"
+curl "https://euclid-mcp-server.vercel.app/mcp/http?limit=5"
 ```
 
-### Get Swap Routes
+### Fetch Single Token (Production)
 ```bash
-curl -X POST http://localhost:3000/mcp/http/routes \
+curl "https://euclid-mcp-server.vercel.app/mcp/http?tokenId=stars"
+```
+
+### Get Swap Routes (Production)
+```bash
+curl -X POST https://euclid-mcp-server.vercel.app/mcp/http \
   -H "Content-Type: application/json" \
   -d '{
     "token_in": "stars",
@@ -256,9 +272,9 @@ curl -X POST http://localhost:3000/mcp/http/routes \
   }'
 ```
 
-### SSE Streaming (JavaScript)
+### SSE Streaming (JavaScript - Production)
 ```javascript
-const eventSource = new EventSource('http://localhost:3000/mcp/sse/token-metadata?limit=5');
+const eventSource = new EventSource('https://euclid-mcp-server.vercel.app/mcp/sse?limit=5');
 
 eventSource.onmessage = (event) => {
   const data = JSON.parse(event.data);
@@ -277,6 +293,44 @@ The server can be tested using:
 - Browser console for SSE connections
 - Postman or Insomnia for API testing
 - Any HTTP client library
+
+### Test the Hosted Server
+
+```bash
+# Health check
+curl https://euclid-mcp-server.vercel.app/health
+
+# Token metadata
+curl "https://euclid-mcp-server.vercel.app/mcp/http?limit=5"
+
+# Routes
+curl -X POST https://euclid-mcp-server.vercel.app/mcp/http \
+  -H "Content-Type: application/json" \
+  -d '{"token_in":"stars","token_out":"usdc","amount_in":"1000000"}'
+```
+
+## 🚀 Deployment on Vercel
+
+This project is configured for Vercel deployment. To deploy:
+
+1. **Install Vercel CLI** (if not already installed):
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Deploy to Vercel**:
+   ```bash
+   vercel --prod
+   ```
+
+3. **Or connect via GitHub**:
+   - Push your code to GitHub
+   - Import the repository in [Vercel Dashboard](https://vercel.com/dashboard)
+   - Vercel will automatically detect and deploy
+
+The project includes:
+- `vercel.json` - Vercel configuration
+- `api/index.ts` - Serverless function handler
 
 ## 📄 License
 
