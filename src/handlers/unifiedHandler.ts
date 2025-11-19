@@ -53,7 +53,9 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
       console.log('\n[ROUTES REQUEST - SSE]');
       console.log('Status: In Progress');
       console.log('Message:', progressChunk.data.message);
-      res.write(formatStreamChunk(progressChunk));
+      const progressResponse = formatStreamChunk(progressChunk);
+      console.log('Response Chunk Sent:', progressResponse.trim());
+      res.write(progressResponse);
 
       // Execute tool
       const result = await getRoutes(params);
@@ -68,7 +70,10 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
         console.log('[ROUTES RESPONSE - SSE] ERROR');
         console.log('Error Code:', result.error.code);
         console.log('Error Message:', result.error.message);
-        res.write(formatStreamChunk(errorChunk));
+        const errorResponse = formatStreamChunk(errorChunk);
+        console.log('Response Chunk Sent:', errorResponse.trim());
+        console.log('Full Error Response:', JSON.stringify(errorChunk, null, 2));
+        res.write(errorResponse);
       } else {
         const resultChunk: MCPStreamChunk = {
           type: 'result',
@@ -87,8 +92,11 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
             console.log(`  ... and ${result.result.routes.length - 3} more routes`);
           }
         }
-        console.log('Full Response:', JSON.stringify(result.result, null, 2));
-        res.write(formatStreamChunk(resultChunk));
+        console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
+        const resultResponse = formatStreamChunk(resultChunk);
+        console.log('Response Chunk Sent:', resultResponse.trim());
+        console.log('Full Response Chunk:', JSON.stringify(resultChunk, null, 2));
+        res.write(resultResponse);
       }
 
       res.end();
@@ -112,7 +120,9 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
       console.log('\n[TOKEN METADATA REQUEST - SSE]');
       console.log('Status: In Progress');
       console.log('Message:', progressChunk.data.message);
-      res.write(formatStreamChunk(progressChunk));
+      const progressResponse = formatStreamChunk(progressChunk);
+      console.log('Response Chunk Sent:', progressResponse.trim());
+      res.write(progressResponse);
 
       // Execute tool
       const result = await getTokenMetadata(params);
@@ -127,7 +137,10 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
         console.log('[TOKEN METADATA RESPONSE - SSE] ERROR');
         console.log('Error Code:', result.error.code);
         console.log('Error Message:', result.error.message);
-        res.write(formatStreamChunk(errorChunk));
+        const errorResponse = formatStreamChunk(errorChunk);
+        console.log('Response Chunk Sent:', errorResponse.trim());
+        console.log('Full Error Response:', JSON.stringify(errorChunk, null, 2));
+        res.write(errorResponse);
       } else {
         const resultChunk: MCPStreamChunk = {
           type: 'result',
@@ -157,8 +170,11 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
             }
           }
         }
-        console.log('Full Response:', JSON.stringify(result.result, null, 2));
-        res.write(formatStreamChunk(resultChunk));
+        console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
+        const resultResponse = formatStreamChunk(resultChunk);
+        console.log('Response Chunk Sent:', resultResponse.trim());
+        console.log('Full Response Chunk:', JSON.stringify(resultChunk, null, 2));
+        res.write(resultResponse);
       }
 
       res.end();
@@ -235,7 +251,9 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
       console.log('\n[ROUTES REQUEST - HTTP]');
       console.log('Status: In Progress');
       console.log('Message:', progressChunk.data.message);
-      res.write(formatHTTPChunk(progressChunk));
+      const progressResponse = formatHTTPChunk(progressChunk);
+      console.log('Response Chunk Sent:', progressResponse.trim());
+      res.write(progressResponse);
 
       // Execute tool
       const result = await getRoutes(params);
@@ -250,7 +268,10 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
         console.log('[ROUTES RESPONSE - HTTP] ERROR');
         console.log('Error Code:', result.error.code);
         console.log('Error Message:', result.error.message);
-        res.write(formatHTTPChunk(errorChunk));
+        const errorResponse = formatHTTPChunk(errorChunk);
+        console.log('Response Chunk Sent:', errorResponse.trim());
+        console.log('Full Error Response:', JSON.stringify(errorChunk, null, 2));
+        res.write(errorResponse);
       } else {
         const resultChunk: MCPStreamChunk = {
           type: 'result',
@@ -269,8 +290,11 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
             console.log(`  ... and ${result.result.routes.length - 3} more routes`);
           }
         }
-        console.log('Full Response:', JSON.stringify(result.result, null, 2));
-        res.write(formatHTTPChunk(resultChunk));
+        console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
+        const resultResponse = formatHTTPChunk(resultChunk);
+        console.log('Response Chunk Sent:', resultResponse.trim());
+        console.log('Full Response Chunk:', JSON.stringify(resultChunk, null, 2));
+        res.write(resultResponse);
       }
 
       res.end();
@@ -294,7 +318,9 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
       console.log('\n[TOKEN METADATA REQUEST - HTTP]');
       console.log('Status: In Progress');
       console.log('Message:', progressChunk.data.message);
-      res.write(formatHTTPChunk(progressChunk));
+      const progressResponse = formatHTTPChunk(progressChunk);
+      console.log('Response Chunk Sent:', progressResponse.trim());
+      res.write(progressResponse);
 
       // Execute tool
       const result = await getTokenMetadata(params);
@@ -309,7 +335,10 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
         console.log('[TOKEN METADATA RESPONSE - HTTP] ERROR');
         console.log('Error Code:', result.error.code);
         console.log('Error Message:', result.error.message);
-        res.write(formatHTTPChunk(errorChunk));
+        const errorResponse = formatHTTPChunk(errorChunk);
+        console.log('Response Chunk Sent:', errorResponse.trim());
+        console.log('Full Error Response:', JSON.stringify(errorChunk, null, 2));
+        res.write(errorResponse);
       } else {
         const resultChunk: MCPStreamChunk = {
           type: 'result',
@@ -339,8 +368,11 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
             }
           }
         }
-        console.log('Full Response:', JSON.stringify(result.result, null, 2));
-        res.write(formatHTTPChunk(resultChunk));
+        console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
+        const resultResponse = formatHTTPChunk(resultChunk);
+        console.log('Response Chunk Sent:', resultResponse.trim());
+        console.log('Full Response Chunk:', JSON.stringify(resultChunk, null, 2));
+        res.write(resultResponse);
       }
 
       res.end();

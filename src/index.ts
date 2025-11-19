@@ -26,7 +26,10 @@ app.use((req: Request, res: Response, next) => {
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  const response = { status: 'ok', timestamp: new Date().toISOString() };
+  console.log('\n[HEALTH CHECK REQUEST]');
+  console.log('Response:', JSON.stringify(response, null, 2));
+  res.json(response);
 });
 
 // Unified SSE Endpoint - handles both token metadata (GET) and routes (POST)
