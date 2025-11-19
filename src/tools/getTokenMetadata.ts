@@ -3,7 +3,14 @@ import {
   fetchTokenMetadataById,
 } from '../services/graphql.js';
 import { MCPToolResponse } from '../types.js';
-import { formatMCPResult, formatMCPError, validateTokenMetadataParams, Logger } from '../utils.js';
+import { 
+  formatMCPResult, 
+  formatMCPError, 
+  validateTokenMetadataParams, 
+  Logger,
+  formatTokenMetadataResult,
+  formatSingleTokenResult
+} from '../utils.js';
 
 export interface GetTokenMetadataParams {
   limit?: number;
@@ -35,9 +42,7 @@ export async function getTokenMetadata(
         return formatMCPError('NOT_FOUND', `Token with ID ${params.tokenId} not found`);
       }
 
-      return formatMCPResult('getTokenMetadata', {
-        token,
-      });
+      return formatMCPResult('getTokenMetadata', formatSingleTokenResult(token));
     }
 
     // Otherwise, fetch list of tokens
@@ -47,10 +52,7 @@ export async function getTokenMetadata(
       search: params.search,
     });
 
-    return formatMCPResult('getTokenMetadata', {
-      tokens,
-      count: tokens.length,
-    });
+    return formatMCPResult('getTokenMetadata', formatTokenMetadataResult(tokens, tokens.length));
   } catch (error: any) {
     Logger.error('Error in getTokenMetadata tool', error);
     return formatMCPError('EXECUTION_ERROR', error.message || 'Failed to get token metadata');

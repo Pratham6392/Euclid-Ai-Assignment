@@ -53,6 +53,140 @@ export function formatMCPResult(tool: string, result: any): MCPToolResponse {
   };
 }
 
+// Response Formatters for better readability
+export function formatTokenMetadataResult(tokens: any[], count?: number) {
+  return {
+    summary: {
+      total: count || tokens.length,
+      timestamp: new Date().toISOString(),
+    },
+    tokens: tokens.map(token => ({
+      id: token.tokenId,
+      name: token.displayName,
+      price: token.price ? `$${token.price.toFixed(6)}` : 'N/A',
+      priceChange24h: token.price_change_24h ? `${token.price_change_24h > 0 ? '+' : ''}${token.price_change_24h.toFixed(2)}%` : 'N/A',
+      priceChange7d: token.price_change_7d ? `${token.price_change_7d > 0 ? '+' : ''}${token.price_change_7d.toFixed(2)}%` : 'N/A',
+      volume24h: token.total_volume_24h ? `$${formatLargeNumber(token.total_volume_24h)}` : 'N/A',
+      totalVolume: token.total_volume ? `$${formatLargeNumber(token.total_volume)}` : 'N/A',
+      decimals: token.coinDecimal,
+      verified: token.is_verified,
+      chains: token.chain_uids || [],
+      tags: token.tags || [],
+      minSwapValue: token.min_swap_value ? formatLargeNumber(token.min_swap_value) : null,
+      image: token.image,
+      description: token.description,
+      social: token.social,
+      // Include full data for advanced use cases
+      raw: token,
+    })),
+  };
+}
+
+export function formatSingleTokenResult(token: any) {
+  return {
+    summary: {
+      id: token.tokenId,
+      name: token.displayName,
+      timestamp: new Date().toISOString(),
+    },
+    token: {
+      id: token.tokenId,
+      name: token.displayName,
+      price: {
+        current: token.price ? `$${token.price.toFixed(6)}` : 'N/A',
+        value: token.price,
+        change24h: token.price_change_24h ? {
+          percentage: `${token.price_change_24h > 0 ? '+' : ''}${token.price_change_24h.toFixed(2)}%`,
+          value: token.price_change_24h,
+        } : null,
+        change7d: token.price_change_7d ? {
+          percentage: `${token.price_change_7d > 0 ? '+' : ''}${token.price_change_7d.toFixed(2)}%`,
+          value: token.price_change_7d,
+        } : null,
+      },
+      volume: {
+        total24h: token.total_volume_24h ? `$${formatLargeNumber(token.total_volume_24h)}` : 'N/A',
+        total: token.total_volume ? `$${formatLargeNumber(token.total_volume)}` : 'N/A',
+        raw24h: token.total_volume_24h,
+        rawTotal: token.total_volume,
+      },
+      details: {
+        decimals: token.coinDecimal,
+        verified: token.is_verified,
+        chains: token.chain_uids || [],
+        tags: token.tags || [],
+        minSwapValue: token.min_swap_value ? formatLargeNumber(token.min_swap_value) : null,
+        dex: token.dex,
+      },
+      metadata: {
+        image: token.image,
+        description: token.description,
+        social: token.social,
+      },
+      // Include full raw data
+      raw: token,
+    },
+  };
+}
+
+export function formatRoutesResult(routesData: any) {
+  const routes = routesData.routes || [];
+  const formattedRoutes = routes.map((route: any, index: number) => {
+    // Extract common route information
+    const routeInfo: any = {
+      index: index + 1,
+      path: route.path || route.token_path || [],
+      amountOut: route.amount_out ? formatLargeNumber(route.amount_out) : 'N/A',
+      amountOutRaw: route.amount_out,
+      // Include all route data
+      data: route,
+    };
+
+    // Add additional fields if they exist
+    if (route.price_impact) routeInfo.priceImpact = `${route.price_impact}%`;
+    if (route.fee) routeInfo.fee = route.fee;
+    if (route.exchange_rate) routeInfo.exchangeRate = route.exchange_rate;
+    if (route.estimated_gas) routeInfo.estimatedGas = formatLargeNumber(route.estimated_gas);
+
+    return routeInfo;
+  });
+
+  return {
+    summary: {
+      tokenIn: routesData.token_in,
+      tokenOut: routesData.token_out,
+      amountIn: formatLargeNumber(routesData.amount_in),
+      amountInRaw: routesData.amount_in,
+      totalRoutes: routes.length,
+      timestamp: new Date().toISOString(),
+    },
+    routes: formattedRoutes,
+    // Include raw response for advanced use cases
+    raw: routesData,
+  };
+}
+
+// Helper function to format large numbers
+function formatLargeNumber(num: number | string): string {
+  if (typeof num === 'string') {
+    num = parseFloat(num);
+  }
+  
+  if (isNaN(num)) return '0';
+  
+  if (num >= 1e12) {
+    return (num / 1e12).toFixed(2) + 'T';
+  } else if (num >= 1e9) {
+    return (num / 1e9).toFixed(2) + 'B';
+  } else if (num >= 1e6) {
+    return (num / 1e6).toFixed(2) + 'M';
+  } else if (num >= 1e3) {
+    return (num / 1e3).toFixed(2) + 'K';
+  } else {
+    return num.toFixed(2);
+  }
+}
+
 export function formatMCPStreamChunk(
   type: 'result' | 'error' | 'progress',
   tool: string,

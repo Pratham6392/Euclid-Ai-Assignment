@@ -1,6 +1,12 @@
 import { fetchRoutes } from '../services/rest.js';
 import { MCPToolResponse } from '../types.js';
-import { formatMCPResult, formatMCPError, validateRoutesParams, Logger } from '../utils.js';
+import { 
+  formatMCPResult, 
+  formatMCPError, 
+  validateRoutesParams, 
+  Logger,
+  formatRoutesResult
+} from '../utils.js';
 
 export interface GetRoutesParams {
   token_in: string;
@@ -30,7 +36,7 @@ export async function getRoutes(params: GetRoutesParams): Promise<MCPToolRespons
       limit: params.limit || 100,
     });
 
-    return formatMCPResult('getRoutes', routesData);
+    return formatMCPResult('getRoutes', formatRoutesResult(routesData));
   } catch (error: any) {
     Logger.error('Error in getRoutes tool', error);
     return formatMCPError('EXECUTION_ERROR', error.message || 'Failed to get routes');
