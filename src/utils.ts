@@ -63,9 +63,9 @@ export function formatTokenMetadataResult(tokens: any[], count?: number) {
     tokens: tokens.map(token => ({
       id: token.tokenId,
       name: token.displayName,
-      price: token.price ? `$${token.price.toFixed(6)}` : 'N/A',
-      priceChange24h: token.price_change_24h ? `${token.price_change_24h > 0 ? '+' : ''}${token.price_change_24h.toFixed(2)}%` : 'N/A',
-      priceChange7d: token.price_change_7d ? `${token.price_change_7d > 0 ? '+' : ''}${token.price_change_7d.toFixed(2)}%` : 'N/A',
+      price: token.price ? `$${parseFloat(token.price).toFixed(6)}` : 'N/A',
+      priceChange24h: token.price_change_24h ? `${parseFloat(token.price_change_24h) > 0 ? '+' : ''}${parseFloat(token.price_change_24h).toFixed(2)}%` : 'N/A',
+      priceChange7d: token.price_change_7d ? `${parseFloat(token.price_change_7d) > 0 ? '+' : ''}${parseFloat(token.price_change_7d).toFixed(2)}%` : 'N/A',
       volume24h: token.total_volume_24h ? `$${formatLargeNumber(token.total_volume_24h)}` : 'N/A',
       totalVolume: token.total_volume ? `$${formatLargeNumber(token.total_volume)}` : 'N/A',
       decimals: token.coinDecimal,
@@ -83,6 +83,10 @@ export function formatTokenMetadataResult(tokens: any[], count?: number) {
 }
 
 export function formatSingleTokenResult(token: any) {
+  const price = token.price ? parseFloat(token.price) : null;
+  const priceChange24h = token.price_change_24h ? parseFloat(token.price_change_24h) : null;
+  const priceChange7d = token.price_change_7d ? parseFloat(token.price_change_7d) : null;
+  
   return {
     summary: {
       id: token.tokenId,
@@ -93,15 +97,15 @@ export function formatSingleTokenResult(token: any) {
       id: token.tokenId,
       name: token.displayName,
       price: {
-        current: token.price ? `$${token.price.toFixed(6)}` : 'N/A',
-        value: token.price,
-        change24h: token.price_change_24h ? {
-          percentage: `${token.price_change_24h > 0 ? '+' : ''}${token.price_change_24h.toFixed(2)}%`,
-          value: token.price_change_24h,
+        current: price ? `$${price.toFixed(6)}` : 'N/A',
+        value: price,
+        change24h: priceChange24h ? {
+          percentage: `${priceChange24h > 0 ? '+' : ''}${priceChange24h.toFixed(2)}%`,
+          value: priceChange24h,
         } : null,
-        change7d: token.price_change_7d ? {
-          percentage: `${token.price_change_7d > 0 ? '+' : ''}${token.price_change_7d.toFixed(2)}%`,
-          value: token.price_change_7d,
+        change7d: priceChange7d ? {
+          percentage: `${priceChange7d > 0 ? '+' : ''}${priceChange7d.toFixed(2)}%`,
+          value: priceChange7d,
         } : null,
       },
       volume: {
