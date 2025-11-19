@@ -81,16 +81,14 @@ export async function handleSSE(req: Request, res: Response): Promise<void> {
           data: result.result,
         };
         console.log('[ROUTES RESPONSE - SSE] SUCCESS');
-        console.log('Summary:', JSON.stringify(result.result.summary, null, 2));
-        console.log('Total Routes:', result.result.summary?.totalRoutes || 0);
-        if (result.result.routes && result.result.routes.length > 0) {
-          console.log('Routes Preview (first 3):');
-          result.result.routes.slice(0, 3).forEach((route: any, idx: number) => {
-            console.log(`  Route ${idx + 1}: Path: ${route.path?.join(' -> ') || 'N/A'}, Amount Out: ${route.amountOut || 'N/A'}`);
+        const routesCount = result.result.paths?.length || result.result.routes?.length || 0;
+        console.log('Total Routes/Paths:', routesCount);
+        if (result.result.paths && result.result.paths.length > 0) {
+          console.log('Paths Preview (first 3):');
+          result.result.paths.slice(0, 3).forEach((path: any, idx: number) => {
+            const routePath = path.path?.[0]?.route || path.route || [];
+            console.log(`  Path ${idx + 1}: ${routePath.join(' -> ') || 'N/A'}`);
           });
-          if (result.result.routes.length > 3) {
-            console.log(`  ... and ${result.result.routes.length - 3} more routes`);
-          }
         }
         console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
         const resultResponse = formatStreamChunk(resultChunk);
@@ -279,16 +277,14 @@ export async function handleHTTP(req: Request, res: Response): Promise<void> {
           data: result.result,
         };
         console.log('[ROUTES RESPONSE - HTTP] SUCCESS');
-        console.log('Summary:', JSON.stringify(result.result.summary, null, 2));
-        console.log('Total Routes:', result.result.summary?.totalRoutes || 0);
-        if (result.result.routes && result.result.routes.length > 0) {
-          console.log('Routes Preview (first 3):');
-          result.result.routes.slice(0, 3).forEach((route: any, idx: number) => {
-            console.log(`  Route ${idx + 1}: Path: ${route.path?.join(' -> ') || 'N/A'}, Amount Out: ${route.amountOut || 'N/A'}`);
+        const routesCount = result.result.paths?.length || result.result.routes?.length || 0;
+        console.log('Total Routes/Paths:', routesCount);
+        if (result.result.paths && result.result.paths.length > 0) {
+          console.log('Paths Preview (first 3):');
+          result.result.paths.slice(0, 3).forEach((path: any, idx: number) => {
+            const routePath = path.path?.[0]?.route || path.route || [];
+            console.log(`  Path ${idx + 1}: ${routePath.join(' -> ') || 'N/A'}`);
           });
-          if (result.result.routes.length > 3) {
-            console.log(`  ... and ${result.result.routes.length - 3} more routes`);
-          }
         }
         console.log('Full Response Data:', JSON.stringify(result.result, null, 2));
         const resultResponse = formatHTTPChunk(resultChunk);

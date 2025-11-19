@@ -4,8 +4,7 @@ import {
   formatMCPResult, 
   formatMCPError, 
   validateRoutesParams, 
-  Logger,
-  formatRoutesResult
+  Logger
 } from '../utils.js';
 
 export interface GetRoutesParams {
@@ -36,7 +35,8 @@ export async function getRoutes(params: GetRoutesParams): Promise<MCPToolRespons
       limit: params.limit || 100,
     });
 
-    return formatMCPResult('getRoutes', formatRoutesResult(routesData));
+    // Return raw data only (no formatting)
+    return formatMCPResult('getRoutes', routesData);
   } catch (error: any) {
     Logger.error('Error in getRoutes tool', error);
     return formatMCPError('EXECUTION_ERROR', error.message || 'Failed to get routes');
