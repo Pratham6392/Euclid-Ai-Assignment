@@ -46,11 +46,12 @@ npm install
 # Build the project
 npm run build
 
-# Start the server
-npm start
-
 # Or run in development mode with auto-reload
 npm run dev
+
+# To run the CLI :
+
+npm run cli
 ```
 
 ## 🔧 Configuration
@@ -59,8 +60,8 @@ Create a `.env` file in the root directory:
 
 ```env
 PORT=3000
-EUCLID_GRAPHQL_ENDPOINT=https://testnet.api.euclidprotocol.com/graphql
-EUCLID_REST_ENDPOINT=https://testnet.api.euclidprotocol.com/api/v1/routes
+EUCLID_GRAPHQL_ENDPOINT=" "
+EUCLID_REST_ENDPOINT=" "
 ```
 
 ## 📡 API Endpoints
@@ -232,7 +233,6 @@ All responses follow the MCP-compliant structure:
 ### Scripts
 
 - `npm run build` - Compile TypeScript to JavaScript
-- `npm start` - Start the production server
 - `npm run dev` - Start development server with auto-reload
 
 ### Logging
@@ -309,34 +309,5 @@ curl -X POST https://euclid-mcp-server.vercel.app/mcp/http \
   -d '{"token_in":"stars","token_out":"usdc","amount_in":"1000000"}'
 ```
 
-## 🚀 Deployment on Vercel
 
-This project is configured for Vercel deployment. To deploy:
-
-1. **Install Vercel CLI** (if not already installed):
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Deploy to Vercel**:
-   ```bash
-   vercel --prod
-   ```
-
-3. **Or connect via GitHub**:
-   - Push your code to GitHub
-   - Import the repository in [Vercel Dashboard](https://vercel.com/dashboard)
-   - Vercel will automatically detect and deploy
-
-The project includes:
-- `vercel.json` - Vercel configuration
-- `api/index.ts` - Serverless function handler
-
-## 📄 License
-
-ISC
-
-## 🤝 Contributing
-
-This is an assignment project for Euclid Protocol.
 
