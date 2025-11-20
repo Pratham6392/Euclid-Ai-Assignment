@@ -1,3 +1,9 @@
+
+# Video Demonstration
+
+Go to this link :  https://drive.google.com/file/d/1JFh7-rK2mtIsEHK6H-Z3_KqDSFgufF_A/view
+
+ 
 # Euclid Protocol MCP Server
 
 A Model Context Protocol (MCP) server implementation in TypeScript that connects to the Euclid Protocol Testnet API and exposes SSE (Server-Sent Events) and HTTP streamable endpoints.
